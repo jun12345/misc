@@ -1,0 +1,21 @@
+github
+步骤：
+1 依据官方网站的介绍配置git和建仓库，略。与githu通信，我觉得使用https协议比git和ssh好一些，下面以https为例子。
+  git配置注意的就是：使用git config user.name 和git config user.email 配置成同github帐户。
+
+2 弄好后我git push，没提示输入密码，但出现了错误。上网查，解决方法有2种：
+    1）升级git到1.7.10版本之上。
+	2）修改.git/config文件，把url = https://github.com/jun12345/misc.git 改为url = https://jun12345@github.com/jun12345/misc.git。
+	   改好后git push就会提示输入密码。
+
+
+telnet
+1 telnet bbs.sysu.edu.cn :can access my school's bbs. 如果有乱码，那么选择"Terminal", 修改字符编码为GBK。
+2 ctrl + ']' :quit to telnet prompt, then 'q' quit to terminal.
+
+
+ssh
+
+
+
+
