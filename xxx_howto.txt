@@ -25,5 +25,9 @@ ubuntu 12.04
    gnome-screenshot程序设置启动快捷键。
 
 
-
+vim
+===
+:%s/.../.../g   ## string substitution
+:%s/.../.../gc  ## string substitution. 'c': 给个机会让你选择是否进行替换，这样可以实现部分替换。
+%: 跳到匹配的括号
 
