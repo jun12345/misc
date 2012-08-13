@@ -1,4 +1,5 @@
 github
+======
 步骤：
 1 依据官方网站的介绍配置git和建仓库，略。与githu通信，我觉得使用https协议比git和ssh好一些，下面以https为例子。
   git配置注意的就是：使用git config user.name 和git config user.email 配置成同github帐户。
@@ -10,11 +11,18 @@ github
 
 
 telnet
+======
 1 telnet bbs.sysu.edu.cn :can access my school's bbs. 如果有乱码，那么选择"Terminal", 修改字符编码为GBK。
 2 ctrl + ']' :quit to telnet prompt, then 'q' quit to terminal.
 
 
 ssh
+======
+
+ubuntu 12.04
+=============================
+1. 截图（实现类似于QQ的方式）：system setting --> keyboard --> shortcut，在screenshot里面设置。原理：对ubuntu自带的截图软件
+   gnome-screenshot程序设置启动快捷键。
 
 
 

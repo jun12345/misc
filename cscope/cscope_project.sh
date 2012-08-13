@@ -9,7 +9,9 @@
 
 PROJECT_PATH=$1
 PROJECT_NAME=$2
-CSCOPE_DB_TOP_PATH="$HOME/cscope_db"
+
+T=`dirname $0` #get dir name
+CSCOPE_DB_TOP_PATH=`cd $T;pwd`
 
 function check_exit()
 {

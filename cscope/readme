@@ -1,0 +1,15 @@
+how to use:
+
+1) sudo apt-get install cscope
+
+2) copy cscope_maps.vim to $HOME/.vim/plugin
+
+3) ./cscope_project.sh <your_project> <your_project_name>
+
+  The step will obtain the file of cscope.out in the <your_project_name> dir. The <your_project_name> dir is in the dir
+  of cscope_project.sh.
+
+4) cp cp-example.sh cp-<your_project>.sh, modify it to let CSCOPE_DB path to your project's cscope.out, and source cp-eample.sh
+
+5) run vim, ctrl + space + s/g/c/... enjoy cscope!!
+

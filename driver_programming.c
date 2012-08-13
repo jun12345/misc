@@ -1,4 +1,5 @@
-1. /sys/class interface
+/sys/class interface
+====================
 
     error = class_register(&jun); //error == 0: successful
 	
@@ -18,7 +19,8 @@
 
 
 
-2. /sys/devices interface
+/sys/devices interface
+======================
 
     error = sysfs_create_group(&client->dev.kobj, &jun_attr_group); //error == 0:successful. if client is i2c's device,
 																	//then it will have "/sys/devices/i2c-x/x-<addr>/jun"
@@ -36,3 +38,11 @@
 
     ssize_t jun_read(struct device *dev, struct device_attribute *attr, char *buf){...}
 	ssize_t jun_write(struct device *dev, struct device_attribute *attr, const char *buf, size_t count)
+
+video drivers
+=============
+
+VGA目前的含义更多地体现为分辨率规范，VGA:640*480, SVGA:800*600, XGA:1024*768, SXGA:1280*1024, QVGA:320*240
+在弄TV300项目时会涉及到这些概念。在弄MID时，不会碰到，而是LVDS等概念。
+
+frame buffer is the kernel of linux video drivers system.
