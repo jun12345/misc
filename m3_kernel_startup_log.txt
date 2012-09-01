@@ -1,0 +1,606 @@
+[    0.000000] Initializing cgroup subsys cpu
+
+[    0.000000] Linux version 2.6.34 (zengyw@midcs-P67-DS3-B3) (gcc version 4.4.3 (GCC) ) #35 PREEMPT Thu Aug 2 11:00:38 CST 2012
+              #start_kernel()<init/main.c> --> printk(...)
+
+[    0.000000] CPU: ARMv7 Processor [412fc094] revision 4 (ARMv7), cr=10c53c7f
+			  #start_kernel() --> setup_arch(&command_line)<arch/arm/kernel/setup.c> --> setup_processor() --> printk(...)
+			  
+[    0.000000] CPU: VIPT nonaliasing data cache, VIPT nonaliasing instruction cache
+			  #setup_arch() --> setup_processor() --> cacheid_init() --> printk(...)
+			  
+[    0.000000] Machine: AMLOGIC MESON3 8726M SKT SH
+			  #setup_arch() --> setup_machine(machine_arch_type) --> printk(...)
+
+[    0.000000] Ignoring unrecognised tag 0x00000000
+			  #setup_arch() --> parse_tags() --> printk(...)
+
+[    0.000000] Memory policy: ECC disabled, Data cache writeback
+			  #setup_arch() --> paging_init() --> build_mem_type_table() --> printk(...)
+
+[    0.000000] BUG: mapping for 0x84000000 at 0xc4000000 overlaps vmalloc space
+			  #setup_arch() --> paging_init() --> devicemaps_init(mdesc) --> create_mapping() --> printk(...)
+
+[    0.000000] Built 1 zonelists in Zone order, mobility grouping on.  Total pages: 231936
+			  #start_kernel() --> build_all_zonelists() -- > printk()
+
+[    0.000000] Kernel command line: init=/init console=ttyS0,115200n8 nohlt a9_clk=600M clk81=192M 
+									hdmitx=vdacoff,powermode1,unplug_powerdown mem=1024M vmalloc=200M 
+									logo=osd1,loaded,0x84100000,lcd,full
+			  #start_kernel() --> printk()
+
+[    0.000000] (CTS_DDR_CLK) = 528MHz
+[    0.000000] (CTS_MALI_CLK) = 264MHz
+[    0.000000] (CTS_A9_CLK) = 600MHz
+			  #start_kernel() --> parse_early_param() --> parse_early_options() --> parse_args() --> parse_one()
+			  # --> params[i].set(...) --> __setup("a9_clk=", cpu_clock_setting) --> cpu_clock_setting()<arch/arm/mach-
+			  # meson3/clock.c> --> printk(). 
+              #I think: " __setup("...", func)" macro fills in parmas[]
+
+[    0.000000] CLK81(from MSR_CLK_REG) = 192000000MHz, a9_clk(from args) = 192000000
+[    0.000000] CLK81 is the same as args
+			  # ... --> __setup("clk81=", clk81_clock_setup) --> clk81_clock_setup()<arch/arm/mach-meson3/clock.c>
+
+[    0.000000] HDMI DEBUG: hdmitx_boot_para_setup [1327]hdmi: set init powermode 1
+			  # ... --> __setup("hdmitx=", hdmitx_boot_para_setup) --> hdmitx_boot_para_setup()<drivers/amlogic/
+			  # hdmi/hdmi_tx/hdmi_tx.c>
+
+[    0.000000] osd1:1
+[    0.000000] loaded:268435459
+[    0.000000] logo has been loaded
+[    0.000000] lcd:12
+[    0.000000] full:2
+			  # ... --> __setup("logo=",logo_setup) --> logo_setup()<drivers/amlogic/display/aml_logo/
+			  #  loader/logo_setup_uboot.c>
+
+[    0.000000] PID hash table entries: 2048 (order: 1, 8192 bytes)
+[    0.000000] Dentry cache hash table entries: 65536 (order: 6, 262144 bytes)
+[    0.000000] Inode-cache hash table entries: 32768 (order: 5, 131072 bytes)
+	 		  #start_kernel() --> pidhash_init() --> alloc_large_system_hash()
+
+[    0.000000] Memory: 64MB 338MB 56MB 456MB = 914MB total
+[    0.000000] Memory: 917176k/917176k available, 18760k reserved, 466944K highmem
+[    0.000000] Virtual kernel memory layout:
+[    0.000000]     vector  : 0xffff0000 - 0xffff1000   (   4 kB)
+[    0.000000]     fixmap  : 0xfff00000 - 0xfffe0000   ( 896 kB)
+[    0.000000]     DMA     : 0xffc00000 - 0xffe00000   (   2 MB)
+[    0.000000]     vmalloc : 0xe4000000 - 0xf0000000   ( 192 MB)
+[    0.000000]     lowmem  : 0xc0000000 - 0xe3800000   ( 568 MB)
+[    0.000000]     pkmap   : 0xbfe00000 - 0xc0000000   (   2 MB)
+[    0.000000]     modules : 0xbf000000 - 0xbfe00000   (  14 MB)
+[    0.000000]       .init : 0xc0008000 - 0xc0218000   (2112 kB)
+[    0.000000]       .text : 0xc0218000 - 0xc0975024   (7541 kB)
+[    0.000000]       .data : 0xc0976000 - 0xc09c0460   ( 298 kB)
+			  #start_kernel() --> mm_init() --> mem_init()<arch/arm/mm/init.c>
+
+[    0.000000] SLUB: Genslabs=11, HWalign=32, Order=0-3, MinObjects=0, CPUs=1, Nodes=1
+			  #start_kernel() --> mm_init() --> kmem_cache_init()<mm/slub.c>
+
+[    0.000000] Hierarchical RCU implementation.
+			  #start_kernel() --> rcu_init()<kernel/rcutree.c> --> rcu_bootup_announce()<kernel/rcutree_plugin.h>
+
+[    0.000000] NR_IRQS:128
+			  #start_kernel() --> early_irq_init()<kernel/irq/handle.c>. 128(NR_IRQS) defined in 
+			  # arch/arm/mach-meson3/include/mach/irqs.h
+
+[    0.000000] Console: colour dummy device 80x30
+			  #start_kernel() --> console_init()<drivers/char/tty_io.c> --> con_init()<drivers/char/vt.c>
+			  #note: console_initcall(con_init) will add con_init into [__con_initcall_start--__con_initcall_end].
+
+[    0.000000] console [ttyS0] enabled
+			  #... --> con_init() --> register_console()<kernel/printk.c>
+
+[    0.227938] Calibrating delay loop... 933.88 BogoMIPS (lpj=4669440)
+			  #start_kernel() --> calibrate_delay()<init/calibrate.c>
+
+[    0.480190] Mount-cache hash table entries: 512
+			  #start_kernel() --> vfs_caches_init()<fs/dcache.c> --> mnt_init()<fs/namespace.c>
+
+[    0.482208] Initializing cgroup subsys cpuacct
+[    0.486093] Initializing cgroup subsys freezer
+			  #todo
+
+[    0.490609] CPU: Testing write buffer coherency: ok
+			  #start_kernel() --> check_bugs() --> check_writebuffer_bugs()<arch/arm/mm/fault-armv.c>
+
+
+#the follows: start_kernel() --> rest_init() --> kernel_thread(kernel_init,...) --> kernel_init() --> do_basic_setup()
+#             --> do_initcalls() --> [early_initcall_end -- __initcall_end]'s function point.
+#
+#             core_initcall(xxx), arch_initcall(xxx) and so on will add xxx into [early_initcall_end -- __initcall_end].
+
+[    0.499176] regulator: core version 0.5
+			  #core_initcall(regulator_init)<drivers/regulator/core.c> --> regulator_init()
+
+[    0.499496] NET: Registered protocol family 16
+			  #todo
+
+[    0.504470] L2X0 cache controller enabled
+			  #arch_initcall(customize_machine)<arch/arm/kernel/setup.c> --> init_machine()<function point> -->
+			  #  MACHINE_START(...)'s init_machine<arch/arm/mach-meson3/board-yf.c> --> m3_init_machine() -->
+			  #  meson_cache_init()<arch/arm/mach-meson3/board-yf.c> --> l2x0_init()<arch/arm/mm/cache-l2x0.c>
+
+[    0.607513] 
+[    0.607520]  ------------------init LCD----------.
+[    0.608234] 
+			  #m3_init_machine() --> aml_lcd_io_init()
+
+[    0.608238] lcd: power_off_backlight.
+			  #m3_init_machine() --> power_off_backlight()<drivers/amlogic/display/vout/lcd_lvds/yf_lcd_lvds.c>
+
+[    0.613359] set WIFI CLK Pin GPIOC_15 32KHz ***1
+			  #m3_init_machine() --> aml_wifi_bcm4018x_init() --> wifi_set_clk_enable()
+
+[    0.617941] power hold set high!
+[    0.621159] set_vccx2 power up
+			  #m3_init_machine() --> power_hold()
+
+[    0.626568] USB PHY clock souce: XTAL input divided by 2
+			  #m3_init_machine() --> set_usb_phy_clk()<arch/arm/mach-meson3/usbclock.c>
+
+[    0.629472] register lm device 0
+			  #m3_init_machine() --> lm_device_register(&usb_ld_a)<arch/arm/mach-meson3/lm.c>
+
+[    0.632754] register lm device 1
+			  #m3_init_machine() --> lm_device_register(&usb_ld_b)<arch/arm/mach-meson3/lm.c>
+
+[    0.635965] chip version=e34c3110
+			  #arch_initcall(chip_version_init)<arch/arm/mach-meson3/common.c>
+
+[    0.639197] major number 0 for disp
+[    0.642753] register tv module server ok 
+			  #arch_initcall(tv_init_module)<drivers/amlogic/display/vout/tvconf.c>
+
+[    0.646847] major number 0 for disp
+[    0.650374] register tv module server ok 
+			  #arch_initcall(tv_init_module)<drivers/amlogic/display/vout2/tvconf2.c>
+
+[    0.654547] drivers/amlogic/i2c/aml_i2c.c : aml_i2c_init
+[    0.659740] drivers/amlogic/i2c/aml_i2c.c : aml_i2c_probe
+[    0.665113] master_no = 0, resource = c097ec18, maseter_regs=
+[    0.671080] aml-i2c aml-i2c.0: add adapter aml_i2c_adap0(e3434428)
+[    0.676960] aml-i2c aml-i2c.0: aml i2c bus driver.
+			  #arch_initcall(aml_i2c_init)<drivers/amlogic/i2c/aml_i2c.c> --> xxx_probe()
+
+[    0.681809] drivers/amlogic/i2c/aml_i2c.c : aml_i2c_probe
+[    0.687102] master_no = 1, resource = c097ec88, maseter_regs=
+[    0.693014] aml-i2c aml-i2c.1: add adapter aml_i2c_adap1(e3434828)
+[    0.698973] aml-i2c aml-i2c.1: aml i2c bus driver.
+			  #the same as above
+
+[    0.703824] drivers/amlogic/i2c/aml_i2c.c : aml_i2c_probe
+[    0.709115] master_no = 2, resource = c097ecf8, maseter_regs=
+[    0.714980] aml-i2c aml-i2c.2: add adapter aml_i2c_adap2(e3434c28)
+[    0.721007] aml-i2c aml-i2c.2: aml i2c bus driver.
+			  #the same as above
+
+[    0.728385] axp_mfd 2-0034: AXP (CHIP ID: 0x21) detected
+			  #arch_initcall(axp_mfd_init)<drivers/amlogic/power/axp_power/axp-mfd.c> --> i2c_add_driver(&axp_mfd_driver)
+			  # xxx_probe() --> chip->ops->init_chip(chip)(point to drivers/amlogic/power/axp_power/axp20-mfd.h's 
+			  # axp20_init_chip()
+
+[    0.749839] bio: create slab <bio-0> at 0
+			  #subsys_initcall(init_bio)<fs/bio.c> --> bioset_create() --> bio_find_or_create_slab()
+
+[    0.750420] SCSI subsystem initialized
+			  #subsys_initcall(init_scsi)<drivers/scsi/scsi.c>
+
+[    0.752152] usbcore: registered new interface driver usbfs
+			  #subsys_initcall(usb_init)<drivers/usb/core/usb.c> --> usb_register(&usbfs_driver) --> usb_register_driver()
+
+[    0.757553] usbcore: registered new interface driver hub
+			  #subsys_initcall(usb_init)<drivers/usb/core/usb.c> --> usb_hub_init()
+
+[    0.762960] usbcore: registered new device driver usb
+			  #subsys_initcall(usb_init)<drivers/usb/core/usb.c> --> usb_register_device_driver()
+
+[    0.768121] 
+[    0.768124] lcd: power_off_backlight.
+[    0.840017] 
+[    0.840022] LCD: LVDS port disable.
+[    1.220017] 
+[    1.220021] lcd: power off lcd.
+			  #subsys_initcall(t13_init)<./drivers/amlogic/display/vout/lcd_lvds/yf_lcd_lvds.c>
+			  #  --> t13_io_init() --> "code is right"(todo)
+
+[    1.220153] LCD module enable.
+[    1.222379] 
+[    1.222383] lcd: power on lcd.
+[    1.530016] 
+[    1.530021] LCD: LVDS port enable.
+			  #subsys_initcall(tcon_init)<drivers/amlogic/display/vout/lvds.c> --> tcon_probe() --> _tcon_init()
+
+[    1.532918] Advanced Linux Sound Architecture Driver Version 1.0.22.1.
+			  #subsys_initcall(alsa_sound_init)<sound/core/sound.c>
+
+[    1.536191] Bluetooth: Core ver 2.15
+[    1.539582] NET: Registered protocol family 31
+[    1.543853] Bluetooth: HCI device and connection manager initialized
+[    1.550156] Bluetooth: HCI socket layer initialized
+    		  #subsys_initcall(bt_init)<net/bluetooth/af_bluetooth.c>
+
+[    1.555192] cfg80211: Calling CRDA to update world regulatory domain
+[    1.561647] Switching to clocksource Timer-E
+[    1.566142] NET: Registered protocol family 2
+[    1.570136] IP route cache hash table entries: 16384 (order: 4, 65536 bytes)
+[    1.577564] TCP established hash table entries: 65536 (order: 7, 524288 bytes)
+[    1.585238] TCP bind hash table entries: 65536 (order: 6, 262144 bytes)
+[    1.591257] TCP: Hash tables configured (established 65536 bind 65536)
+[    1.597219] TCP reno registered
+[    1.600327] UDP hash table entries: 256 (order: 0, 4096 bytes)
+[    1.606157] UDP-Lite hash table entries: 256 (order: 0, 4096 bytes)
+[    1.612519] NET: Registered protocol family 1
+[    1.617028] RPC: Registered udp transport module.
+[    1.621382] RPC: Registered tcp transport module.
+[    1.626100] RPC: Registered tcp NFSv4.1 backchannel transport module.
+[    1.643793] Create class touchpanel is sucess
+[    1.659657] highmem bounce pool size: 64 pages
+			  #todo
+
+[    1.659806] ashmem: initialized
+			  #module_init(ashmem_init)<mm/ashmem.c>
+
+[    1.666661] VFS: Disk quotas dquot_6.5.2
+[    1.666917] Dquot-cache hash table entries: 1024 (order 0, 4096 bytes)
+[    1.674279] NTFS driver 2.1.29 [Flags: R/W].
+[    1.676773] fuse init (API version 7.13)
+[    1.680699] msgmni has been set to 879
+[    1.687496] alg: No test for stdrng (krng)
+[    1.688084] io scheduler noop registered
+[    1.691911] io scheduler deadline registered
+[    1.696480] io scheduler cfq registered (default)
+[    1.901436] brd: module loaded
+[    1.903331] loop: module loaded
+[    1.904874] PPP generic driver version 2.4.2
+[    1.907778] PPP MPPE Compression module registered
+[    1.911077] NET: Registered protocol family 24
+[    1.915523] PPPoL2TP kernel driver, V1.0
+[    1.919559] usbcore: registered new interface driver asix
+[    1.924804] usbcore: registered new interface driver cdc_ether
+[    1.930667] usbcore: registered new interface driver qf9700
+[    1.936184] usbcore: registered new interface driver sr9600
+[    1.941846] usbcore: registered new interface driver cdc_acm
+[    1.947335] cdc_acm: v0.26:USB Abstract Control Model driver for USB modems and ISDN adapters
+[    1.955810] Initializing USB Mass Storage driver...
+[    1.960705] usbcore: registered new interface driver usb-storage
+[    1.966648] USB Mass Storage support registered.
+[    1.971341] usbcore: registered new interface driver usbserial
+[    1.977055] usbserial: USB Serial Driver core
+[    1.981399] USB Serial support registered for GSM modem (1-port)
+[    1.987409] usbcore: registered new interface driver option
+[    1.992887] option: v0.7.2:USB Driver for GSM modems
+[    1.998212] mice: PS/2 mouse device common for all mice
+[    2.003758] i2c /dev entries driver
+[    2.007466] Linux video capture interface: v2.00
+[    2.011191] gt2005 0-003c: chip found @ 0x78 (aml_i2c_adap0)
+[    2.017090] ******* enter itk early suspend register *******
+[    2.022426] gc0308 0-0021: chip found @ 0x42 (aml_i2c_adap0)
+[    2.028038] amlogic camera driver: gc0308_v4l2_init. 
+[    2.115587] +++found a init function, and run it..
+[    2.115613] amlogic camera driver: gc0308_v4l2_uninit. 
+[    2.120026] +++found a uninit function, and run it..
+[    2.125285] ******* enter itk early suspend register *******
+[    2.132284] device-mapper: ioctl: 4.17.0-ioctl (2010-03-05) initialised: dm-devel@redhat.com
+[    2.140640] usbcore: registered new interface driver hiddev
+[    2.144596] usbcore: registered new interface driver usbhid
+[    2.150150] usbhid: USB HID core driver
+[    2.154702] logger: created 64K log 'log_main'
+[    2.158650] logger: created 256K log 'log_events'
+[    2.163252] logger: created 64K log 'log_radio'
+[    2.167803] logger: created 64K log 'log_system'
+[    2.172207] start init vout module 
+[    2.175759] create  vout attribute ok 
+[    2.179525] ge2d_init
+[    2.181741] ge2d_dev major:252
+[    2.185204] ge2d start monitor
+[    2.188142] osd_init
+[    2.190190] [osd0] 0x84100000-0x846fffff
+[    2.194169] Frame buffer memory assigned at phy:0x84100000, vir:0xe4800000, size=6144K
+[    2.201971] ---------------clear framebuffer0 memory  
+[    2.212023] [osd1] 0x84700000-0x847fffff
+[    2.212085] Frame buffer memory assigned at phy:0x84700000, vir:0xe4200000, size=1024K
+[    2.218965] init fbdev bpp is :24
+[    2.222697] osd probe ok  
+[    2.225188] enter aml_bl_probe
+[    2.228244] ge2d workqueue monitor start
+[    2.255593] 
+[    2.255597] lcd: power_on_backlight.
+[    2.255620] 
+[    2.255623] lcd: set backlight level: 102, last level: 0
+[    2.261847] --finish aml_bl_probe
+[    2.265191] vout2_init_module enter
+[    2.268671] start init vout2 module 
+[    2.272297] create  vout2 attribute ok 
+[    2.280433] UART_ttyS0:(irq = 90, address = 0xf81004c0)
+[    2.281361] UART_ttyS1:(irq = 26, address = 0xf11084c0)
+[    2.286621] UART_ttyS2:(irq = 75, address = 0xf11084dc)
+[    2.291759] UART_ttyS3:(irq = 93, address = 0xf1108700)
+[    2.296968] Port 0 = IRQ 90
+[    2.299721] Port 1 = IRQ 26
+[    2.302494] Port 2 = IRQ 75
+[    2.305268] Port 3 = IRQ 93
+[    2.308057] Amlogic nand flash AVOS driver for M3, Version 1.1 (c) 2010 Amlogic Inc.
+[    2.315918] bus_cycle=17, bus_timing=10, start_cycle=10, end_cycle=10,system=5.2ns
+[    2.323312] No NAND device found.
+[    2.326630] NAND device id: 2c 88 4 4b a9 0 
+[    2.330841] NAND device: Manufacturer ID: 0x2c, Chip ID: 0x2c (Micron C revision NAND 8GiB MT29F64G-C)
+[    2.340227] bus_cycle=4, bus_timing=5, start_cycle=5, end_cycle=6,system=5.2ns
+[    2.347326] oob size is not enough for selected bch mode: NAND_BCH60_1K_MODE force bch to mode: NAND_BCH30_1K_MODE
+[    2.357703] Creating 1 MTD partitions on "C revision NAND 8GiB MT29F64G-C":
+[    2.364552] 0x000000000000-0x000000800000 : "bootloader"
+[    2.370949] bus_cycle=17, bus_timing=10, start_cycle=10, end_cycle=10,system=5.2ns
+[    2.377445] No NAND device found.
+[    2.380684] NAND device id: 2c 88 4 4b a9 0 
+[    2.384921] NAND device: Manufacturer ID: 0x2c, Chip ID: 0x2c (Micron C revision NAND 8GiB MT29F64G-C)
+[    2.394223] 1 NAND chips detected
+[    2.397591] bus_cycle=4, bus_timing=5, start_cycle=5, end_cycle=6,system=5.2ns
+[    2.404679] oob size is not enough for selected bch mode: NAND_BCH60_1K_MODE force bch to mode: NAND_BCH30_1K_MODE
+[    2.434741] aml nand env valid addr: c70000 
+[    2.472834] nand env: nand_env_probe. 
+[    2.473368] Creating 8 MTD partitions on "C revision NAND 8GiB MT29F64G-C":
+[    2.478025] 0x000001000000-0x000001800000 : "logo"
+[    2.483569] 0x000001800000-0x000002000000 : "aml_logo"
+[    2.488700] 0x000002000000-0x000002800000 : "recovery"
+[    2.493671] 0x000002800000-0x000003000000 : "boot"
+[    2.498546] 0x000003000000-0x000023000000 : "system"
+[    2.502678]  NAND bbt detect Bad block at b400000 
+[    2.508313] 0x000023000000-0x00002b000000 : "cache"
+[    2.513080] 0x00002b000000-0x00004b000000 : "userdata"
+[    2.518298] 0x00004b000000-0x000200000000 : "NFTL_Part"
+[    2.956665] aml_nftl_check_node Line:119 blk_addr:0  have node length over MAX, and node_len_actual:9
+[    2.987103] aml_nftl_check_node Line:119 blk_addr:1  have node length over MAX, and node_len_actual:9
+[    3.012906] aml_nftl_check_node Line:119 blk_addr:2  have node length over MAX, and node_len_actual:8
+[    3.037065] nftl initilize completely dev size: 0x97800000 21
+[    3.037849]  avnftl8: p1
+[    3.040346] nftl release flush cache data: 0
+[    3.044295] dwc_otg: version 2.60a 22-NOV-2006
+[    3.465620] DWC_otg: Using DMA mode
+[    3.465638] dwc_otg lm0: DWC OTG Controller
+[    3.467777] dwc_otg lm0: new USB bus registered, assigned bus number 1
+[    3.474238] dwc_otg lm0: irq 30, io mem 0x00000000
+[    3.479713] hub 1-0:1.0: USB hub found
+[    3.482720] hub 1-0:1.0: 1 port detected
+[    3.486882] DWC_otg: Shared Tx FIFO mode
+[    3.905609] DWC_otg: Using DMA mode
+[    3.905627] dwc_otg lm1: DWC OTG Controller
+[    3.907744] dwc_otg lm1: new USB bus registered, assigned bus number 2
+[    3.914224] dwc_otg lm1: irq 31, io mem 0x00000000
+	[    3.919017] DWC_otg: Init: Port Power? op_state=1
+[    3.923647] DWC_otg: Init: Power Port (0)
+	[    3.928305] hub 2-0:1.0: USB hub found
+	[    3.931376] hub 2-0:1.0: 1 port detected
+	[    3.935566] Amlogic A/V streaming port init
+	[    3.941757] regist mpeg12 codec profile
+	[    3.943280] regist mpeg4 codec profile
+	[    3.947019] amvdec_vc1 module init
+	[    3.950399] regist vc1 codec profile
+	[    3.953893] amvdec_h264 module init
+	[    3.957434] regist h264 codec profile
+	[    3.961000] amvdec_h264mvc module init
+	[    3.964809] regist mjpeg codec profile
+	[    3.968474] amvdec_real module init
+	[    3.971969] regist real codec profile
+	[    3.977243] Keypad Driver
+	[    3.978604] input: aml_keypad as /devices/platform/m1-kp.0/input/input0
+	[    3.985355] remote config major:248
+	[    3.988793] physical address:0xa37c6000
+	[    3.992177] SARADC Driver init.
+	[    3.995402] ADC Keypad Driver init.
+	[    3.998800] chan #4 used for ADC key
+	[    4.002255] menu key(139) registed.
+	[    4.005748] vol- key(114) registed.
+	[    4.009188] vol+ key(115) registed.
+	[    4.012653] exit key(158) registed.
+	[    4.016140] home key(102) registed.
+	[    4.019751] input: adc_keypad as /devices/platform/m1-adckp.0/input/input1
+	[    4.026841] adc keypad register input device completed.
+	[    4.031730] adc keypad major:247
+	[    4.035406] Key input Driver init.
+	[    4.038510] Key 116 registed.
+	[    4.041479] input: key_input as /devices/platform/m1-keyinput.0/input/input2
+	[    4.048393] <FIQ>:Deinterlace: Init 100us T
+	[    4.048398] 0
+	[    4.054450] Key input register input device completed.
+	[    4.059337] key_input major:244
+	[    4.062926] ==ft5x0x_ts_init==
+[    4.065620] set gpio2.3 output(1)
+	[    4.374443] ==ft5x0x_ts_probe=
+	[    4.374461] ==kzalloc=
+	[    4.374473] ==kzalloc success=
+	[    4.377515] ==enable Irq=
+	[    4.379923] set gpio0.16 input
+	[    4.382955] ==enable Irq success=
+	[    4.386283] ==input_allocate_device=
+	[    4.389966] input: ft5x06 as /devices/virtual/input/input3
+	[    4.395813] ==register_early_suspend =
+	[    4.399236] [FST] Firmware version = 0x22
+	[    4.403132] [ft5x0x]: irq count: 0
+	[    4.406432] ==probe over =
+	[    4.409093] ret=0
+	[    4.410950] in dmard06_i2c_init
+	[    4.414095] in dmard06_probe
+	[    4.417426] (dmard06_get_devid:356):dmard06 devid:6
+	[    4.422021] input: gs_dmard06 as /devices/i2c-1/1-001c/input/input4
+	[    4.429869] [ft5x0x]: point_0: 3433, -1469
+	[    4.432101] [ft5x0x]: point_1: 1751, -485
+	[    4.436240] [ft5x0x]: point_2: 1093, -462
+	[    4.440075] [ft5x0x]: point_3: 208, -3243
+	[    4.444061] [ft5x0x]: point_4: 1440, 54
+	[    4.448087] Memory Card media Major: 253
+	[    4.451847] card max_req_size is 128K 
+	[    4.455983] sdio_extern_init !
+	[    4.458527] 40181 set oob ok !
+	[    4.461563] set gpio4.11 input
+	[    4.464607] Enable WIFI  Module!
+	[    4.467946] card creat process sucessful
+	[    4.471826] [dsp]DSP start addr 0xc4000000
+[    4.475873] [dsp]register dsp to char divece(232)
+	[    4.481733] using rtc device, aml_rtc, for alarms
+	[    4.484990] aml_rtc aml_rtc: rtc core: registered aml_rtc as rtc0
+	[    4.492172] regulator: axp20_ldo1: 1300 mV 
+	[    4.496442] regulator: axp20_ldo2: 1800 <--> 3300 mV at 3000 mV 
+	[    4.502417] regulator: axp20_ldo3: 700 <--> 3500 mV at 2500 mV 
+	[    4.508346] regulator: axp20_ldo4: 1250 <--> 3300 mV at 3300 mV 
+	[    4.515094] regulator: axp20_buck2: 700 <--> 2275 mV at 1525 mV 
+	[    4.521262] regulator: axp20_buck3: 700 <--> 3500 mV at 1225 mV 
+	[    4.525760] regulator: axp20_ldoio0: 1800 <--> 3300 mV at 2800 mV 
+	[    4.531621] input: axp20-supplyer as /devices/i2c-2/2-0034/axp20-supplyer.28/input/input5
+	[    4.547493] ocv_cap[0] = 0, ocv_cap[1] = 193
+	[    4.547517] ocv_cap[2] = 0, ocv_cap[3] = 194
+	[    4.550456] ocv_cap[4] = 0, ocv_cap[5] = 195
+	[    4.554702] ocv_cap[6] = 0, ocv_cap[7] = 196
+	[    4.558988] ocv_cap[8] = 0, ocv_cap[9] = 197
+	[    4.563197] ocv_cap[10] = 1, ocv_cap[11] = 198
+	[    4.567636] ocv_cap[12] = 8, ocv_cap[13] = 199
+	[    4.572036] ocv_cap[14] = 17, ocv_cap[15] = 200
+	[    4.576679] ocv_cap[16] = 26, ocv_cap[17] = 201
+	[    4.581049] ocv_cap[18] = 33, ocv_cap[19] = 202
+	[    4.585556] ocv_cap[20] = 42, ocv_cap[21] = 203
+	[    4.590080] ocv_cap[22] = 50, ocv_cap[23] = 204
+	[    4.594569] ocv_cap[24] = 66, ocv_cap[25] = 205
+	[    4.599089] ocv_cap[26] = 77, ocv_cap[27] = 206
+	[    4.603582] ocv_cap[28] = 92, ocv_cap[29] = 207
+	[    4.608216] ocv_cap[30] = 100, ocv_cap[31] = 208
+	[    4.627286] last_rest_vol = 83, now_rest_vol = 20
+	[    4.627843] ============= axp_battery_probe: success ===========
+	[    4.633285] gpio dev major number:243
+	[    4.637112] create gpio device success
+	[    4.639871] amvdec_viuin module init
+	[    4.643645] amvdec_viuin probe start.
+	[    4.647121] amvdec_viuin probe end.
+	[    4.650569] amvdec_656in module init
+	[    4.654118] amvdec_656in probe start.
+	[    4.657746] amvdec_656in probe end.
+	[    4.661717]  vdin[0] memory start addr is 86800000, mem_size is 2000000 . 
+	[    4.668201] vdin0: flags:0x0
+	[    4.670922] vdin: driver initialized ok
+	[    4.674837] efuse===========================================
+	[    4.680820] efuse: device efuse created
+	[    4.684210] efuse--------------------------------------------
+	[    4.690812] HDMI DEBUG: amhdmitx_init [1220]HDMI DEBUG: amhdmitx_probe [1079]sdio_extern_init !
+	[    4.698542] 40181 set oob ok !
+	[    4.701577] set gpio4.11 input
+	[    4.704622] Enable WIFI  Module!
+	[    4.708106] amlogic rfkill init
+	[    4.711025] Set HDMI:Chip C
+	[    4.713711] HDMI DEBUG: hdmi_hw_init [1137]
+	[    4.717921] 
+	[    4.717926] SD/MMC initialization started......
+	[    4.724712] power off hdmi, unmux hpd
+	[    4.727653] Hdmi phy suspend
+	[    4.730351] HDMI DEBUG: hdmi_task_handle [841]
+	[    4.915690] BT_RADIO going: on
+	[    4.915706] BCM_BT: going ON
+	[    5.125774] HCI UART driver ver 2.2
+	[    5.125795] Bluetooth: HCI H4 protocol initialized
+	[    5.132528] android_usb gadget: Mass Storage Function, version: 2009/09/11
+	[    5.135326] android_usb gadget: Number of LUNs=2
+	[    5.139972]  lun0: LUN: removable file: (no medium)
+[    5.144773]  lun1: LUN: removable file: (no medium)
+	[    5.150222] android_usb gadget: android_usb ready
+	[    5.154845] No device for DAI aml-dai0
+	[    5.158148] ***Entered sound/soc/aml/aml_m3.c:aml_m3_audio_probe
+	[    5.164421] ***Entered sound/soc/aml/aml_m3_codec.c:aml_m3_register
+	[    5.170563] begin SDIO check ......
+	[    5.174539] Actual delay time in sdio_voltage_validation() = 10 ms
+	[    5.236106] Got RCA = 1
+	[    5.238122] #this sdio card could not support read after write
+	[    5.238882] set sd_mmc config_reg->cmd_clk_divide 3, CLK 24M
+	[    5.244501] sd_mmc_init() is completed successfully!
+	[    5.249404] This SDIO card is working in Wide Bus and High Speed mode!
+	[    5.249411] 
+	[    5.257538] monitor : INSERT
+	[    5.260483] memorycard0: queuing unknown CIS tuple 0x80 (2 bytes)
+	[    5.266498] memorycard0: queuing unknown CIS tuple 0x80 (3 bytes)
+	[    5.272414] memorycard0: queuing unknown CIS tuple 0x80 (3 bytes)
+[    5.278609] memorycard0: queuing unknown CIS tuple 0x80 (7 bytes)
+	[    5.485957] aml-pcm 0:preallocate_dma_buffer: area=ffc2c000, addr=a2040000, size=65536
+	[    5.488565] aml-pcm 1:preallocate_dma_buffer: area=ffc4d000, addr=a2020000, size=65536
+	[    5.496247] asoc: AML-M3 <-> aml-dai0 mapping ok
+	[    5.500889] ***Entered sound/soc/aml/aml_m3.c:aml_m3_codec_init:
+	[    5.506971] dapm: AML_M3_CODEC: configuring unknown pin LINPUT1
+	[    5.512674] dapm: AML_M3_CODEC: configuring unknown pin RINPUT1
+	[    5.518595] dapm: AML_M3_CODEC: configuring unknown pin HP MIC
+	[    5.524372] dapm: AML_M3_CODEC: configuring unknown pin FM IN
+	[    5.530353] input: AML-M3 hp_switch as /devices/platform/soc-audio/sound/card0/input6
+	[    5.540012] ALSA device list:
+[    5.540839]   #0: AML-M3 (AML_M3_CODEC)
+	[    5.544874] GACT probability NOT on
+	[    5.548181] Mirror/redirect action on
+	[    5.551760] u32 classifier
+	[    5.554444]     Actions configured 
+	[    5.557934] Netfilter messages via NETLINK v0.30.
+[    5.562634] nf_conntrack version 0.5.0 (14330 buckets, 57320 max)
+	[    5.569329] CONFIG_NF_CT_ACCT is deprecated and will be removed soon. Please use
+	[    5.576072] nf_conntrack.acct=1 kernel parameter, acct=1 nf_conntrack module option or
+	[    5.583911] sysctl net.netfilter.nf_conntrack_acct=1 to enable it.
+	[    5.590567] ctnetlink v0.93: registering with nfnetlink.
+	[    5.595492] xt_time: kernel timezone is -0000
+	[    5.601404] ip_tables: (C) 2000-2006 Netfilter Core Team
+	[    5.605049] arp_tables: (C) 2002 David S. Miller
+	[    5.609655] TCP cubic registered
+	[    5.613458] NET: Registered protocol family 10
+	[    5.618822] lo: Disabled Privacy Extensions
+	[    5.622472] Mobile IPv6
+	[    5.623780] IPv6 over IPv4 tunneling driver
+	[    5.629207] sit0: Disabled Privacy Extensions
+	[    5.634179] ip6tnl0: Disabled Privacy Extensions
+	[    5.637796] NET: Registered protocol family 17
+	[    5.641331] NET: Registered protocol family 15
+	[    5.645768] Bluetooth: L2CAP ver 2.14
+	[    5.649345] Bluetooth: L2CAP socket layer initialized
+	[    5.654379] Bluetooth: SCO (Voice Link) ver 0.6
+	[    5.659017] Bluetooth: SCO socket layer initialized
+	[    5.670905] battery vol change: 20->83 
+	[    5.671811] ======= led_control: flag = 0 ========
+	[    5.674070] Bluetooth: RFCOMM TTY layer initialized
+	[    5.678863] Bluetooth: RFCOMM socket layer initialized
+	[    5.683917] Bluetooth: RFCOMM ver 1.11
+	[    5.687784] Bluetooth: HIDP (Human Interface Emulation) ver 1.2
+	[    5.693640] lib80211: common routines for IEEE802.11 drivers
+	[    5.699281] enter meson_pm_probe!
+	[    5.702480] meson_pm_probe done 0x0 200!
+	[    5.706454] VFP support v0.3: implementor 41 architecture 3 part 30 variant 9 rev 4
+	[    5.715003] registered taskstats version 1
+	[    5.719837] regulator_init_complete: incomplete constraints, leaving axp20_buck3 on
+	[    5.726219] regulator_init_complete: incomplete constraints, leaving axp20_buck2 on
+	[    5.733788] regulator_init_complete: incomplete constraints, leaving axp20_ldo4 on
+	[    5.741348] regulator_init_complete: incomplete constraints, leaving axp20_ldo3 on
+	[    5.749015] regulator_init_complete: incomplete constraints, leaving axp20_ldo2 on
+[    5.756946] aml_rtc aml_rtc: setting system clock to 1970-01-06 05:15:50 UTC (450950)
+	[    5.763827] Build the dev/console in kernel mode.
+	[    5.768584] init_post.
+	[    5.771089] Freeing init memory: 2112K
+	[    5.774522] run_init_process /init.
+	[    5.783833] 
+	[    5.783837] lcd: set backlight level: 250, last level: 102
+	[    5.803582] 
+	[    5.803586] lcd: set backlight level: 250, last level: 250
+	[    5.825261] UMP: UMP device driver  loaded
+	[    5.898043] Mali<2>: 
+	[    5.898061] Mali<2>: Inserting Mali v14 device driver. 
+	[    5.899966] Mali<2>: Compiled: Jul 31 2012, time: 16:16:51.
+	[    5.905513] Mali<2>: Driver revision: 
+	[    5.916008] Mali<2>: Memory system initializing
+	[    5.916289] Mali<2>: Mali OS memory allocator created with max allocation size of 0x14800000 bytes, cpu_usage_adjust 0x00000000
+	[    5.945834] Mali<2>: Memory Validator 'Framebuffer' installed for Mali physical address base=0x84000000, size=0x06000000
+	[    5.954113] Mali<2>: Mali PP: Creating Mali PP core: Mali-400 PP
+	[    5.959948] Mali<2>: Mali PP: Base address of PP core: 0xd0068000
+	[    5.963255] Mali<2>: Found Mali GPU Mali-400 MP r1p0
+	[    5.976272] Mali<2>: Mali L2 cache: Creating Mali L2 cache: Mali-400 L2 cache
+	[    5.977886] Mali<2>: Mali MMU: Creating Mali MMU: Mali-400 MMU for GP
+	[    5.984310] Mali<2>: Mali GP: Creating Mali GP core: Mali-400 GP
+	[    6.005903] Mali<2>: Mali MMU: Creating Mali MMU: Mali-400 MMU for PP
+	[    6.010630] Mali<2>: Mali PP: Creating Mali PP core: Mali-400 PP
+	[    6.019419] Mali<2>: Mali PP: Base address of PP core: 0xd0068000
+	[    6.036432] Mali: Mali device driver loaded
+	[    6.212696] ======= led_control: flag = 0 ========
+	[    6.258182] init: command 'loglevel' r=0
+	[    6.258246] init: command 'mkdir' r=0
+	[    6.260223] init: command 'mkdir' r=0
+	[    6.263870] init: command 'mkdir' r=0
+	[    6.267559] init: command 'mkdir' r=0
+	[    6.271134] init: command 'export' r=0
+	[    6.274852] init: command 'export' r=0
+	[    6.278611] init: command 'export' r=0
+	GG
